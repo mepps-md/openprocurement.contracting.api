@@ -15,7 +15,6 @@ from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import CPVClassification as BaseCPVClassification
 from openprocurement.api.models import Item as BaseItem
-from openprocurement.api.models import AdditionalClassification as BaseAdditionalClassification
 from openprocurement.api.models import (Model, ListType, Revision, Value,
                                         IsoDateTimeType)
 from openprocurement.api.validation import validate_items_uniq
@@ -107,12 +106,6 @@ class CPVClassification(BaseCPVClassification):
         pass
 
 
-class AdditionalClassification(BaseAdditionalClassification):
-
-    def validate_id(self, data, code):
-        pass
-
-
 class Item(BaseItem):
 
     class Options:
@@ -123,7 +116,6 @@ class Item(BaseItem):
         }
 
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications =  ListType(ModelType(AdditionalClassification, default=list()))
 
 
 class Change(Model):
