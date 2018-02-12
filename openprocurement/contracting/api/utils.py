@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from functools import partial
 from pkg_resources import get_distribution
+from hashlib import sha512
 from logging import getLogger
 from cornice.resource import resource
 from schematics.exceptions import ModelValidationError
+from schematics.types.base import StringType
 from openprocurement.api.utils import (
     error_handler, get_revision_changes, context_unpack, apply_data_patch,
     generate_id, set_modetest_titles, get_now,
@@ -94,3 +96,9 @@ def apply_patch(request, data=None, save=True, src=None):
 
 def set_ownership(item, request):
     item.owner_token = generate_id()
+    acc = {'token': item.owner_token}
+    if isinstance(getattr(type(item), 'transfer_token', None), StringType):
+        transfer = generate_id()
+        item.transfer_token = sha512(transfer).hexdigest()
+        acc['transfer'] = transfer
+    return acc

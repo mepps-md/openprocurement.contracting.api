@@ -152,6 +152,7 @@ class Contract(SchematicsDocument, BaseContract):
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
     owner_token = StringType(default=lambda: uuid4().hex)
+    transfer_token = StringType()
     owner = StringType()
     mode = StringType(choices=['test'])
     status = StringType(choices=['terminated', 'active'], default='active')
@@ -222,4 +223,3 @@ class Contract(SchematicsDocument, BaseContract):
             return Value(dict(amount=self.amountPaid.amount,
                               currency=self.value.currency,
                               valueAddedTaxIncluded=self.value.valueAddedTaxIncluded))
-
